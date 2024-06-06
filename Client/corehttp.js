@@ -1,7 +1,6 @@
 
 class coreHTTP {
 
-
   async get(url) {
     const requestOptions = {
       method: "GET",

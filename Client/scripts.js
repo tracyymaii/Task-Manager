@@ -1,54 +1,96 @@
-
+/**
+ * Members: Tracy Mai, Minnie Cao, Kamile Vaicekonis
+ * Assignment: List Manager 
+ * File: script.js
+ * Course: CSC 3221 - Netcentric Computing - Dr. Dennis Vickers 
+ * 
+ */
 
 const http = new coreHTTP;
 
+// Block Variables
+let taskList = [];
+let completion =[];
 
-let theList = [];
-
-
+// setup selectors
 const result = document.querySelector(".result");
-const input =  document.querySelector("#listitem");
-const newItem =  document.querySelector("#newitem");
-const addButton =  document.querySelector(".add-btn");
+const input =  document.querySelector("#taskitem");
+const getButton =  document.querySelector(".get-btn");
 const delButton =  document.querySelector(".del-btn");
-const changeButton =  document.querySelector(".change-btn");
+const upButton =  document.querySelector(".up-btn");
+const createButton =  document.querySelector(".create-btn");
 
-
-addButton.addEventListener("click", httpPost);
+// Listeners
+getButton.addEventListener("click", GetList);
 delButton.addEventListener("click", httpDelete);
-changeButton.addEventListener("click", httpChange);
+createButton.addEventListener("click", httpPost);
+upButton.addEventListener("click", httpChange);
 
+/* Helper Functions */
 function ShowList() {
   let output = "<ul>";
-  for (const itm of theList) {
-    output += `<li>${itm}</li>`;
+  for (let i = 0; i < taskList.length; i++) {
+    if (!completion[i]){
+      output += `<li style="display: flex; align-items: center;">
+                  <input type="radio" name="taskitem" value="${taskList[i]}" id="task${i}">
+                  <label for="task${i}" style="margin-left: 8px;">${taskList[i]}</label>
+                </li>`;
+    }else{
+      output += `<li style="display: flex; align-items: center;">
+                  <s>${completeList[i]}</s>
+                </li>`;
+    }
   }
   output += "</ul>";
   result.innerHTML = output;
 }
 
-
+/**
+ * Get List
+ * Uses async and await to attempt to show the list as long as no 
+ * error occurs. Uses catch to print out an error message if there
+ * was an error.
+ */
 async function GetList() {
   try{
-    theList = await http.get("/api");
+    const task = await http.get("/api");
+    taskList = task.map(task => task.task);
+    completion = task.map(task => task.completion);
     ShowList();
   }catch(error){
     console.error('GetList() failed');
   }
 }
 
-
-async function WriteList() {
+/**
+ * Write List
+ * Uses async and await to attempt to post the list as long as no 
+ * error occurs. Uses catch to print out an error message if there
+ * was an error.
+ */
+async function WriteList(complete) {
   try {
-    await http.post("/api", theList);
+    if (!complete){
+      await http.post("/api", taskList);
+    }else{
+      await http.post("/api", completeList);
+    }
   } catch (error) {
     console.error('WriteList() failed');
   }
 }
 
+/**
+ * http Post
+ * Is triggered when a new item is added to the list from the website.
+ * Pushes the new item onto the list and calls Showlist and awaits
+ * for WriteList.
+ * @param e
+ */
+/* Listener Functions */
 async function httpPost(e) {
   try{
-    theList.push(input.value);
+    taskList.push(input.value);
     ShowList();
     await WriteList();
   }catch(error){
@@ -56,54 +98,73 @@ async function httpPost(e) {
   }
 }
 
-
+/**
+ * http Delete
+ * Occurs when a request to delete an item from the list is triggered
+ * from the website. Removes the item from the list and calls ShowList
+ * and awaits for
+ * @param e
+ */
 async function httpDelete(e) {
   try{
-    const index = theList.indexOf(input.value);
-    if (index !== -1) {
-      theList.splice(index, 1);
+    const selected = document.querySelector('input[name="taskitem"]:checked');
+    if (selected){
+      completeList.push(selected.value);
+      const index = taskList.indexOf(selected.value);
+      taskList.splice(index, 1);
       ShowList();
       await WriteList();
     }else{
-      input.value = "unavailable item";
+      console.log('no task selected');
     }
   }catch(error){
     console.error('httpDelete() failed');
   }
 }
 
-
+/**
+ * http Change
+ * Occurs when a request to change an existing item from the list is 
+ * triggered from the website. Changes the old item to the newly 
+ * requested one. If the old item does not exist, the change is unable
+ * to happen. Catches and error that occurs and outputs an error 
+ * message accordingly.
+ * @param e
+ */
 async function httpChange(e) {
   try{
-    const index = theList.indexOf(input.value);
-    if (index !== -1) {
-      theList.splice(index, 1, newItem.value);
+    const selected = document.querySelector('input[name="taskitem"]:checked');
+    if (selected){
+      const index = taskList.indexOf(selected.value);
+      taskList.splice(index, 1, input.value);
       ShowList();
       await WriteList();
     }else{
-      input.value = "unavailable item";
+      console.log('no task selected');
     }
   }catch(error){
     console.error('httpChange() failed');
   }
 }
 
-
+// Loading functions
 function showLoading() {
   result.innerHTML = "Loading...";
 }
 
 async function main() {
-  addButton.disabled = true;
+  getButton.disabled = true;
+  upButton.disabled = true;
+  createButton.disabled = true;
   delButton.disabled = true;
-  changeButton.disabled = true;
   showLoading();
 
   await GetList();
 
-  addButton.disabled = false;
+  getButton.disabled = false;
+  upButton.disabled = false;
+  createButton.disabled = false;
   delButton.disabled = false;
-  changeButton.disabled = false;
 }
 
 main();

@@ -14,8 +14,6 @@ async function ReadData() {
   }
 }
 
-
-
 async function WriteData(dataOut) {
   try {
 

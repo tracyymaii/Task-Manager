@@ -41,18 +41,12 @@ const tasks = require("./Task");
   try {
     await connectDB();
     app.listen(port, () => {
-      console.log(`${appName} is running on http://localhost:${port}/tm/tasks`);
+      console.log(`${appName} is running on http://localhost:${port}`);
     })
   } catch (error) {
     console.log(error);
   };
 }) ();
-
-
-
-
-
-
 
 // app.post("/api", async (req,res) => {
 //   try{
@@ -63,18 +57,15 @@ const tasks = require("./Task");
 //   }
 // })
 
-app.post("/api", async (req,res) => {
-  try{
-    await fm.WriteData(req.body);
-    res.send();
-  }catch(err){
-    console.error(err);
-  }
-})
-
+app.post("/tm/tasks", async (req,res) => {
+  try{             
+    const newTask = await tasks.create(req.body);
+    res.status(201).json({ task: newTask });
+  }catch{
+      res.status(500).json({msg: error});
+  };
+ });
 
 app.all("*", (req,res) => {
   res.status(404).send("<h1>Page Not Found...</h1>");
 });
-
-
