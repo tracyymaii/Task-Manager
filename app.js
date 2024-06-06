@@ -99,7 +99,7 @@ app.post("/tm/tasks", async (req,res) => {
 
 /**
  * Put function
- * This function uses the Express app object to route the HTTP post request.
+ * This function uses the Express app object to route the HTTP put request.
  * The try block uses the Mongoose findOneAndUpdate operation that sends a query to find the task that matches the specified name
  * and updates the name to a new name.
  * It also sets new to true after the update was made.
