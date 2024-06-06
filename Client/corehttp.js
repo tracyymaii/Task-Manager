@@ -1,3 +1,14 @@
+/**
+ * Team 3:
+ * Tracy Mai
+ * Minnie Cao
+ * Kamile Vaicekonis
+ * CSC3221 - Netcentric Computing
+ * Task Manager Project
+ * Corehttp.js
+ */
+
+// Constructor to create an XHR object
 class coreHTTP {
   async get(url) {
     try {
@@ -12,6 +23,7 @@ class coreHTTP {
     }
   }
 
+   /* <<< HTTP POST request >>> */
   async post(url, requestData) {
     const reqOptions = {
       method: "POST",
@@ -29,6 +41,7 @@ class coreHTTP {
     }
   }
 
+  /* <<< HTTP PUT request >>> */
   async put(url, requestData) {
     const reqOptions = {
       method: "PUT",
@@ -46,6 +59,7 @@ class coreHTTP {
     }
   }
 
+/* <<< HTTP DELETE request >>> */
   async delete(url, requestData) {
     const reqOptions = {
       method: "DELETE",
