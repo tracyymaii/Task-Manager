@@ -3,27 +3,26 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="csc3221.css">
-<link rel="stylesheet" href="taskbox.css">
   <title>Task Manager</title>
 </head>
 <body>
   <div class="page-area">
     <h1>Task Manager</h1>
     <form>
-      <h3>Task List</h3>
+      <table>
+        <tr>
+           <td><h3>Task List</h3></td>
+           <td><button type="submit" class="get-btn">Get</button></td>
+        </tr>
+      </table>
       <section>
-        <label for="taskitem">Item:</label>
+        <label for="taskitem">New Task:</label>
         <input type="text" name="taskitem" id="taskitem" autocomplete="false">
+        <button type="submit" class="create-btn">Create</button>
+        <button type="submit" class="up-btn">Update</button>
+        <button type="submit" class="del-btn">Delete</button>
       </section>
-      <section>
-        <label for="newitem">Change To:</label>
-        <input type="text" name="newitem" id="newitem" autocomplete="false">
-      </section>
-      <button type="submit" class="get-btn">Get</button>
-<button type="submit" class="create-btn">Create</button>
-      <button type="submit" class="del-btn">Delete</button>
-      <button type="submit" class="up-btn">Update</button>
-    </form>
+    </form>    
     <div class="result">Loading...</div>
   </div>
   <script src="corehttp.js"></script>
