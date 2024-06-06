@@ -83,11 +83,12 @@ async function WriteList() {
 /* Listener Functions */
 async function httpPost(e) {
   try{
-    taskList.push(input.value);
-    completion.push(false);
-    console.log(taskList);
+    if (input.value.trim() === ""){
+      console.error('No Input Found');
+      return;
+    }
     await http.post("/tm/tasks", {name: input.value, completed: false});
-    ShowList();
+    GetList();
   }catch(error){
     console.error('httpPost() failed');
   }
@@ -128,6 +129,7 @@ async function httpDelete(e) {
  */
 async function httpChange(e) {
   try{
+
     const selected = document.querySelector('input[name="taskitem"]:checked');
     if (selected){
       const index = taskList.indexOf(selected.value);
