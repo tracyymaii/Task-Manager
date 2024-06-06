@@ -1,6 +1,10 @@
 # Task-Manager
  A full stack web application that is a Task Manager, which allows users to create, read, update, and delete tasks
 
+CSC 3221 Netcentric
+Collaborators and their GitHub ID: Tracy Mai - tracyymaii, Minnie Cao - MinnieMwooh, Kamile Vaicekonis - kamile-v
+
+
 **Requirements:**
 
 1. Create a full stack web application that is a Task Manager.
