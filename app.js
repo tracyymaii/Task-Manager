@@ -77,7 +77,7 @@ app.delete("/tm/tasks", async (req,res) => {
 });
 
 // PUT to update a task by ID
-app.put('tm/tasks/', async (req, res) => {
+app.put('tm/tasks', async (req, res) => {
   try {
     const updatedTask = await tasks.findOneAndUpdate({name: req.params.name}, {name: req.body.newName}, {new: true});
     if (!updatedTask) {
