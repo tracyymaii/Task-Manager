@@ -1,46 +1,48 @@
-
 class coreHTTP {
-
   async get(url) {
-    const requestOptions = {
-      method: "GET",
-      headers: {"Content-Type": "application/json"}
-    };
-    const response = await fetch(url, requestOptions);
-    if (response.ok) {
-      const responseData = await response.json();
-      return (responseData);
-    } else {
-      return (Promise.reject(response.status));
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   }
-  
 
   async post(url, requestData) {
     const reqOptions = {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(requestData)};
-    const response = await fetch(url, reqOptions);
-    if (response.ok) {
-      const responseData = await response.json();
-      return responseData;
-    } else {
-      return (Promise.reject(response.status));
+    try {
+      const response = await fetch(url, reqOptions);
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   }
-  
+
   async put(url, requestData) {
     const reqOptions = {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(requestData)};
-    const response = await fetch(url, reqOptions);
-    if (response.ok) {
-      const responseData = await response.json();
-      return (responseData);
-    } else {
-      return (Promise.reject(response.status));
+    try {
+      const response = await fetch(url, reqOptions);
+      if (response.ok) {
+        return await response.json();
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   }
 
@@ -48,11 +50,15 @@ class coreHTTP {
     const reqOptions = {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}};
+    try {
       const response = await fetch(url, reqOptions);
       if (response.ok) {
-        return ({});
+        return {};
       } else {
-        return (Promise.reject(response.status));
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 }

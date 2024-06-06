@@ -31,14 +31,9 @@ function ShowList() {
   let output = "<ul>";
   for (let i = 0; i < taskList.length; i++) {
     if (!completion[i]){
-      output += `<li style="display: flex; align-items: center;">
-                  <input type="radio" name="taskitem" value="${taskList[i]}" id="task${i}">
-                  <label for="task${i}" style="margin-left: 8px;">${taskList[i]}</label>
-                </li>`;
+      output += `<li>${taskList[i]}</li>`;
     }else{
-      output += `<li style="display: flex; align-items: center;">
-                  <s>${completeList[i]}</s>
-                </li>`;
+      output += `<li><s>${taskList[i]}</s></li>`;
     }
   }
   output += "</ul>";
@@ -52,12 +47,12 @@ function ShowList() {
  * was an error.
  */
 async function GetList() {
-  try{
-    const task = await http.get("/api");
-    taskList = task.map(task => task.task);
-    completion = task.map(task => task.completion);
+  try {
+    const tasks = await http.get("/tm/tasks");
+    taskList = tasks.task.map(task => task.name);
+    completion = tasks.task.map(task => task.completed);
     ShowList();
-  }catch(error){
+  } catch (error) {
     console.error('GetList() failed');
   }
 }
@@ -70,10 +65,11 @@ async function GetList() {
  */
 async function WriteList(complete) {
   try {
+    
     if (!complete){
       await http.post("/api", taskList);
     }else{
-      await http.post("/api", completeList);
+      await http.post("/api", completion);
     }
   } catch (error) {
     console.error('WriteList() failed');

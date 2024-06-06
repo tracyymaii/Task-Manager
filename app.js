@@ -34,14 +34,12 @@ const tasks = require("./Task");
    };
  });
 
-
-
 //connect to data base and start the node server
 (async function () {
   try {
     await connectDB();
     app.listen(port, () => {
-      console.log(`${appName} is running on http://localhost:${port}`);
+      console.log(`${appName} is running on http://localhost:${port}/tm/tasks`);
     })
   } catch (error) {
     console.log(error);
@@ -66,20 +64,19 @@ app.post("/tm/tasks", async (req,res) => {
   };
  });
 
-
-app.delete("/tm/tasks", async (req,res) => {
-  try{
-    const finishTask = await tasks.updateOne({name: req.body}, {completed: true});
-    res.status(200).json({msg: "Good job completing a task!"});
-  }catch{
-    res.status(500).json({msg: error});
-  };
+ app.delete("/tm/tasks", async (req,res) => {
+  try {
+    const finishTask = await tasks.updateOne({ name: req.body.name }, { completed: true });
+    res.status(200).json({finishTask});
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 });
 
 // PUT to update a task by ID
-app.put('tm/tasks', async (req, res) => {
+app.put('/tm/tasks/:name', async (req, res) => {
   try {
-    const updatedTask = await tasks.findOneAndUpdate({name: req.params.name}, {name: req.body.newName}, {new: true});
+    const updatedTask = await tasks.findOneAndUpdate({ name: req.params.name }, { name: req.body.newName }, { new: true });
     if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
