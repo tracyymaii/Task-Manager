@@ -67,7 +67,7 @@ app.post("/tm/tasks", async (req,res) => {
 
  app.delete("/tm/tasks", async (req,res) => {
   try {
-    const finishTask = await tasks.updateOne({ name: req.body.name }, { completed: true });
+    const finishTask = await tasks.updateOne({ name: req.body.taskname }, { completed: true }, {new: true});
     res.status(200).json({finishTask});
   } catch (error) {
     res.status(500).json({ msg: error });
@@ -78,8 +78,8 @@ app.post("/tm/tasks", async (req,res) => {
 app.put('/tm/tasks', async (req, res) => {
   try {
     const updatedTask = await tasks.findOneAndUpdate(
-      { name: req.query.oldName },
-      { name: req.body.newName },
+      { name: req.query.oldName},
+      { name: req.body.newName, completed: req.body.state },
       { new: true }
     );
     if (!updatedTask) {

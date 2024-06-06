@@ -59,21 +59,6 @@ async function GetList() {
 }
 
 /**
- * Write List
- * Uses async and await to attempt to post the list as long as no 
- * error occurs. Uses catch to print out an error message if there
- * was an error.
- */
-async function WriteList() {
-  try {
-    const tasks = taskList.map((name, index) => ({ name, completed: completion[index] }));
-    await http.post("/tm/tasks", tasks);
-  } catch (error) {
-    console.error('WriteList() failed');
-  }
-}
-
-/**
  * http Post
  * Is triggered when a new item is added to the list from the website.
  * Pushes the new item onto the list and calls Showlist and awaits
@@ -103,16 +88,18 @@ async function httpPost(e) {
  */
 async function httpDelete(e) {
   try{
-    const selected = document.querySelector('input[name="taskitem"]:checked');
-    if (selected){
-      completeList.push(selected.value);
-      const index = taskList.indexOf(selected.value);
-      taskList.splice(index, 1);
-      ShowList();
-      await WriteList();
-    }else{
-      console.log('no task selected');
+    if (taskitem.value.trim() === ""){
+      alert('No input found');
+      return;
+    }else if (taskList.indexOf(taskitem.value) === -1) {
+      alert('No such task found' + taskList);
+      return;
+    }else if (completion[taskList.indexOf(taskitem.value)]){
+      alert('Task already compleated');
+      return;
     }
+    await http.put(`/tm/tasks?oldName=${taskitem.value}`, { newName: taskitem.value, state: true});
+    await GetList();
   }catch(error){
     console.error('httpDelete() failed');
   }
@@ -132,11 +119,14 @@ async function httpChange(e) {
     if (input.value.trim() === "" || taskitem.value.trim() === ""){
       alert('Input field does not match coordinating buttons');
       return;
-    }else if (taskList.indexOf(taskitem.value) != -1 && completion[taskList.indexOf(taskitem.value)]) {
-      alert('Completed task cant be changed.');
+    }else if (taskList.indexOf(taskitem.value) === -1) {
+      alert('No such task found');
+      return;
+    }else if (completion[taskList.indexOf(taskitem.value)]){
+      alert('Task already compleated');
       return;
     }
-    const response = await http.put(`/tm/tasks?oldName=${taskitem.value}`, { newName: input.value });
+    const response = await http.put(`/tm/tasks?oldName=${taskitem.value}`, { newName: input.value, state: false});
     if (response) {
       await GetList();
     }
