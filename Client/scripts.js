@@ -1,17 +1,11 @@
-/**
- * Members: Tracy Mai, Minnie Cao, Kamile Vaicekonis
- * Assignment: List Manager 
- * File: script.js
- * Course: CSC 3221 - Netcentric Computing - Dr. Dennis Vickers 
- * 
- */
+
 
 const http = new coreHTTP;
 
-// Block Variables
+
 let theList = [];
 
-// setup selectors
+
 const result = document.querySelector(".result");
 const input =  document.querySelector("#listitem");
 const newItem =  document.querySelector("#newitem");
@@ -19,12 +13,11 @@ const addButton =  document.querySelector(".add-btn");
 const delButton =  document.querySelector(".del-btn");
 const changeButton =  document.querySelector(".change-btn");
 
-// Listeners
+
 addButton.addEventListener("click", httpPost);
 delButton.addEventListener("click", httpDelete);
 changeButton.addEventListener("click", httpChange);
 
-/* Helper Functions */
 function ShowList() {
   let output = "<ul>";
   for (const itm of theList) {
@@ -34,12 +27,7 @@ function ShowList() {
   result.innerHTML = output;
 }
 
-/**
- * Get List
- * Uses async and await to attempt to show the list as long as no 
- * error occurs. Uses catch to print out an error message if there
- * was an error.
- */
+
 async function GetList() {
   try{
     theList = await http.get("/api");
@@ -49,12 +37,7 @@ async function GetList() {
   }
 }
 
-/**
- * Write List
- * Uses async and await to attempt to post the list as long as no 
- * error occurs. Uses catch to print out an error message if there
- * was an error.
- */
+
 async function WriteList() {
   try {
     await http.post("/api", theList);
@@ -63,14 +46,6 @@ async function WriteList() {
   }
 }
 
-/**
- * http Post
- * Is triggered when a new item is added to the list from the website.
- * Pushes the new item onto the list and calls Showlist and awaits
- * for WriteList.
- * @param e
- */
-/* Listener Functions */
 async function httpPost(e) {
   try{
     theList.push(input.value);
@@ -81,13 +56,7 @@ async function httpPost(e) {
   }
 }
 
-/**
- * http Delete
- * Occurs when a request to delete an item from the list is triggered
- * from the website. Removes the item from the list and calls ShowList
- * and awaits for
- * @param e
- */
+
 async function httpDelete(e) {
   try{
     const index = theList.indexOf(input.value);
@@ -103,15 +72,7 @@ async function httpDelete(e) {
   }
 }
 
-/**
- * http Change
- * Occurs when a request to change an existing item from the list is 
- * triggered from the website. Changes the old item to the newly 
- * requested one. If the old item does not exist, the change is unable
- * to happen. Catches and error that occurs and outputs an error 
- * message accordingly.
- * @param e
- */
+
 async function httpChange(e) {
   try{
     const index = theList.indexOf(input.value);
@@ -127,7 +88,7 @@ async function httpChange(e) {
   }
 }
 
-// Loading functions
+
 function showLoading() {
   result.innerHTML = "Loading...";
 }

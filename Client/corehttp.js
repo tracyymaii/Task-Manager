@@ -1,7 +1,7 @@
-// Constructor to create an XHR object
+
 class coreHTTP {
 
-  /* <<< HTTP GET request >>> */
+
   async get(url) {
     const requestOptions = {
       method: "GET",
@@ -16,7 +16,7 @@ class coreHTTP {
     }
   }
   
-  /* <<< HTTP POST request >>> */
+
   async post(url, requestData) {
     const reqOptions = {
       method: "POST",
@@ -31,7 +31,6 @@ class coreHTTP {
     }
   }
   
-  /* <<< HTTP PUT request >>> */
   async put(url, requestData) {
     const reqOptions = {
       method: "PUT",

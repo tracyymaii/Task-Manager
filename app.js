@@ -1,46 +1,68 @@
-/**
- * Members: Tracy Mai, Minnie Cao, Kamile Vaicekonis
- * Assignment: List Manager 
- * File: app.js
- * Course: CSC 3221 - Netcentric Computing - Dr. Dennis Vickers 
- */
 
-// Get 3rd Party modules
 const express = require("express");
-// Get Custom built modules
-const fm = require("./filemgr");
+const connectDB = require("./connect");
+//const fm = require("./filemgr");
 
-// Create the express http server
+const appName = "Task Manager";
+const port = 5500;
+
 const app = express();
 
-// Define some built-in middleware
+//middleware
+// app.use(express.json());
+
+
 app.use(express.static("./Client"));
 app.use(express.json());
 
-// Define HTTP routes listenting for requests
-
-/**
- * get
- * Uses try to sends a get request to read the data from the 
- * file manager. Catches any errors and outputs an error message
- * to the console.
- */
-app.get("/api", async (req,res) => {
-  try{
-    res.send(await fm.ReadData());
-  }catch(err){
-    console.error(err);
-  }
-});
 
 
-/**
- * post 
- * Uses try to send a request to be able to edit the list 
- * (write or delete) and outputs a confirmation message when it is 
- * able to do so. Catches any errors and ouputs an error message to 
- * the console.
- */
+// Data model (Schema)
+const tasks = require("./Task");
+
+//define simple route
+
+
+//requesst for get will trigger find function on mongoose object
+//  task is the last part of the url // funcction runs when express sees this particular get request
+ app.get("/tm/tasks", async (req,res) => {
+   try{             
+    const task = await tasks.find();
+    res.status(200).json({task});
+   }catch{
+      res.status(500).json({msg: error});
+   };
+ });
+
+
+
+//connect to data base and start the node server
+(async function () {
+  try {
+    await connectDB();
+    app.listen(port, () => {
+      console.log(`${appName} is running on http://localhost:${port}/tm/tasks`);
+    })
+  } catch (error) {
+    console.log(error);
+  };
+}) ();
+
+
+
+
+
+
+
+// app.post("/api", async (req,res) => {
+//   try{
+//     await fm.WriteData(req.body);
+//     res.send();
+//   }catch(err){
+//     console.error(err);
+//   }
+// })
+
 app.post("/api", async (req,res) => {
   try{
     await fm.WriteData(req.body);
@@ -50,15 +72,9 @@ app.post("/api", async (req,res) => {
   }
 })
 
-// page not found route
+
 app.all("*", (req,res) => {
   res.status(404).send("<h1>Page Not Found...</h1>");
 });
 
-// Create a server
-const appName = "Simple List";
-const port = 5500;
-app.listen(port, () => {
-  console.log(`App ${appName} is running on http://localhost:${port}`);
-})
 
