@@ -75,14 +75,19 @@ app.post("/tm/tasks", async (req,res) => {
 });
 
 // PUT to update a task by ID
-app.put('/tm/tasks/:name', async (req, res) => {
+app.put('/tm/tasks', async (req, res) => {
   try {
-    const updatedTask = await tasks.findOneAndUpdate({ name: req.params.name }, { name: req.body.newName }, { new: true });
+    const updatedTask = await tasks.findOneAndUpdate(
+      { name: req.query.oldName },
+      { name: req.body.newName },
+      { new: true }
+    );
     if (!updatedTask) {
       return res.status(404).json({ message: 'Task not found' });
     }
     res.status(200).json(updatedTask);
   } catch (error) {
+    console.error('Error:', error);
     res.status(500).json({ message: error.message });
   }
 });

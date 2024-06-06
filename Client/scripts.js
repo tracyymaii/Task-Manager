@@ -14,8 +14,8 @@ let completion =[];
 
 // setup selectors
 const result = document.querySelector(".result");
-const input =  document.querySelector("#newitem");
 const taskitem =  document.querySelector("#taskitem");
+const input =  document.querySelector("#newitem");
 const getButton =  document.querySelector(".get-btn");
 const delButton =  document.querySelector(".del-btn");
 const upButton =  document.querySelector(".up-btn");
@@ -128,19 +128,20 @@ async function httpDelete(e) {
  * @param e
  */
 async function httpChange(e) {
-  try{
-
-    const selected = document.querySelector('input[name="taskitem"]:checked');
-    if (selected){
-      const index = taskList.indexOf(selected.value);
-      taskList.splice(index, 1, input.value);
-      ShowList();
-      await WriteList();
-    }else{
-      console.log('no task selected');
+  try {
+    if (input.value.trim() === "" || taskitem.value.trim() === ""){
+      alert('Input field does not match coordinating buttons');
+      return;
+    }else if (taskList.indexOf(taskitem.value) != -1 && completion[taskList.indexOf(taskitem.value)]) {
+      alert('Completed task cant be changed.');
+      return;
     }
-  }catch(error){
-    console.error('httpChange() failed');
+    const response = await http.put(`/tm/tasks?oldName=${taskitem.value}`, { newName: input.value });
+    if (response) {
+      await GetList();
+    }
+  } catch (error) {
+    console.error('httpChange() failed', error);
   }
 }
 
