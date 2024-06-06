@@ -66,6 +66,16 @@ app.post("/tm/tasks", async (req,res) => {
   };
  });
 
+
+app.delete("/tm/tasks", async (req,res) => {
+  try{
+    const finishTask = await tasks.updateOne({name: req.body}, {completed: true});
+    res.status(200).json({msg: "Good job completing a task!"});
+  }catch{
+    res.status(500).json({msg: error});
+  };
+});
+
 app.all("*", (req,res) => {
   res.status(404).send("<h1>Page Not Found...</h1>");
 });
