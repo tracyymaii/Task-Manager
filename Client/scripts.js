@@ -1,9 +1,11 @@
 /**
- * Members: Tracy Mai, Minnie Cao, Kamile Vaicekonis
- * Assignment: List Manager 
- * File: script.js
- * Course: CSC 3221 - Netcentric Computing - Dr. Dennis Vickers 
- * 
+ * Team 3:
+ * Tracy Mai
+ * Minnie Cao
+ * Kamile Vaicekonis
+ * CSC3221 - Netcentric Computing
+ * Task Manager Project
+ * Scripts.js
  */
 
 const http = new coreHTTP;
