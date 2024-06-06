@@ -14,7 +14,8 @@ let completion =[];
 
 // setup selectors
 const result = document.querySelector(".result");
-const input =  document.querySelector("#taskitem");
+const input =  document.querySelector("#newitem");
+const taskitem =  document.querySelector("#taskitem");
 const getButton =  document.querySelector(".get-btn");
 const delButton =  document.querySelector(".del-btn");
 const upButton =  document.querySelector(".up-btn");
@@ -63,14 +64,10 @@ async function GetList() {
  * error occurs. Uses catch to print out an error message if there
  * was an error.
  */
-async function WriteList(complete) {
+async function WriteList() {
   try {
-    
-    if (!complete){
-      await http.post("/api", taskList);
-    }else{
-      await http.post("/api", completion);
-    }
+    const tasks = taskList.map((name, index) => ({ name, completed: completion[index] }));
+    await http.post("/tm/tasks", tasks);
   } catch (error) {
     console.error('WriteList() failed');
   }
@@ -87,8 +84,10 @@ async function WriteList(complete) {
 async function httpPost(e) {
   try{
     taskList.push(input.value);
+    completion.push(false);
+    console.log(taskList);
+    await http.post("/tm/tasks", {name: input.value, completed: false});
     ShowList();
-    await WriteList();
   }catch(error){
     console.error('httpPost() failed');
   }

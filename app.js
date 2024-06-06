@@ -56,7 +56,8 @@ const tasks = require("./Task");
 // })
 
 app.post("/tm/tasks", async (req,res) => {
-  try{             
+  try{          
+    console.log(req.body);   
     const newTask = await tasks.create(req.body);
     res.status(201).json({ task: newTask });
   }catch{
