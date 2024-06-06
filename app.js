@@ -67,7 +67,7 @@ app.post("/tm/tasks", async (req,res) => {
 
  app.delete("/tm/tasks", async (req,res) => {
   try {
-    const finishTask = await tasks.updateOne({ name: req.body.taskname }, { completed: true }, {new: true});
+    const finishTask = await tasks.deleteOne({name: req.query.taskname});
     res.status(200).json({finishTask});
   } catch (error) {
     res.status(500).json({ msg: error });

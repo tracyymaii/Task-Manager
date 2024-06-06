@@ -18,14 +18,16 @@ const taskitem =  document.querySelector("#taskitem");
 const input =  document.querySelector("#newitem");
 const getButton =  document.querySelector(".get-btn");
 const delButton =  document.querySelector(".del-btn");
+const comButton =  document.querySelector(".com-btn");
 const upButton =  document.querySelector(".up-btn");
 const createButton =  document.querySelector(".create-btn");
 
 // Listeners
 getButton.addEventListener("click", GetList);
 delButton.addEventListener("click", httpDelete);
+comButton.addEventListener("click", completeTask);
 createButton.addEventListener("click", httpPost);
-upButton.addEventListener("click", httpChange);
+upButton.addEventListener("click", httpUpdate);
 
 /* Helper Functions */
 function ShowList() {
@@ -88,6 +90,19 @@ async function httpPost(e) {
  */
 async function httpDelete(e) {
   try{
+    if (taskList.indexOf(taskitem.value) === -1) {
+      alert('No such task found');
+      return;
+    }
+    await http.delete(`/tm/tasks?taskname=${taskitem.value}`);
+    await GetList();
+  }catch(error){
+    console.error('httpDelete() failed');
+  }
+}
+
+async function completeTask(e) {
+  try{
     if (taskitem.value.trim() === ""){
       alert('No input found');
       return;
@@ -101,7 +116,7 @@ async function httpDelete(e) {
     await http.put(`/tm/tasks?oldName=${taskitem.value}`, { newName: taskitem.value, state: true});
     await GetList();
   }catch(error){
-    console.error('httpDelete() failed');
+    console.error('completeTask() failed');
   }
 }
 
@@ -114,7 +129,7 @@ async function httpDelete(e) {
  * message accordingly.
  * @param e
  */
-async function httpChange(e) {
+async function httpUpdate(e) {
   try {
     if (input.value.trim() === "" || taskitem.value.trim() === ""){
       alert('Input field does not match coordinating buttons');
@@ -131,7 +146,7 @@ async function httpChange(e) {
       await GetList();
     }
   } catch (error) {
-    console.error('httpChange() failed', error);
+    console.error('httpUpdate() failed', error);
   }
 }
 
@@ -145,6 +160,7 @@ async function main() {
   upButton.disabled = true;
   createButton.disabled = true;
   delButton.disabled = true;
+  comButton.disabled = true;
   showLoading();
 
   await GetList();
@@ -153,6 +169,7 @@ async function main() {
   upButton.disabled = false;
   createButton.disabled = false;
   delButton.disabled = false;
+  comButton.disabled = false;
 }
 
 main();
