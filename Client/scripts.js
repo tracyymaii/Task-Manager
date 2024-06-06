@@ -84,7 +84,7 @@ async function WriteList() {
 async function httpPost(e) {
   try{
     if (input.value.trim() === ""){
-      console.error('No Input Found');
+      alert('Input field does not match coordinating buttons');
       return;
     }
     await http.post("/tm/tasks", {name: input.value, completed: false});
