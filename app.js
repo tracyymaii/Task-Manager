@@ -76,6 +76,19 @@ app.delete("/tm/tasks", async (req,res) => {
   };
 });
 
+// PUT to update a task by ID
+app.put('tm/tasks/', async (req, res) => {
+  try {
+    const updatedTask = await tasks.findOneAndUpdate({name: req.params.name}, {name: req.body.newName}, {new: true});
+    if (!updatedTask) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 app.all("*", (req,res) => {
   res.status(404).send("<h1>Page Not Found...</h1>");
 });
