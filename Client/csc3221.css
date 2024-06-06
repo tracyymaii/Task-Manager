@@ -1,3 +1,13 @@
+/**
+ * Team 3:
+ * Tracy Mai
+ * Minnie Cao
+ * Kamile Vaicekonis
+ * CSC3221 - Netcentric Computing
+ * Task Manager Project
+ * csc3221.css
+ */
+
 /* Style Reset */
 *,
 *:before,
@@ -63,12 +73,12 @@ hr {
   margin-top: 3rem;
   margin-bottom: 3.5rem;
   border-width: 0;
-  border-top: 1px solid lightgray; }
+  border-top: 1px solid lightgray;
+}
 
 p {margin-top: 0;}
-
-a {color: darkturquoise; }
-a:hover {color: darkturquoise; }
+a {color: darkturquoise;}
+a:hover {color: darkturquoise;}
     
 button,
 input[type="submit"],
@@ -92,6 +102,7 @@ input[type="button"] {
   border: 1px solid lightgray;
   cursor: pointer;
 }
+
 button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
@@ -104,6 +115,7 @@ input[type="button"]:focus {
   border-color: gray;
   outline: 0;
 }
+
 button.primary-button,
 input[type="submit"].primary-button,
 input[type="reset"].primary-button,
@@ -112,6 +124,7 @@ input[type="button"].primary-button {
   background-color: darkturquoise;
   border-color: darkturquoise;
 }
+
 button.primary-button:hover,
 input[type="submit"].primary-button:hover,
 input[type="reset"].primary-button:hover,
@@ -124,6 +137,7 @@ input[type="button"].primary-button:focus {
   background-color: darkturquoise;
   border-color: darkturquoise;
 }
+
 input[type="email"],
 input[type="number"],
 input[type="search"],
@@ -141,11 +155,13 @@ select {
   border: 1px solid lightgray;
   border-radius: 0.4px;
 }
+
 textarea {
     min-height: 6.5rem;
     padding-top: 0.6rem;
     padding-bottom: 0.6rem;
 }
+
 input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,
@@ -158,31 +174,37 @@ select:focus {
   border: 0.1rem solid darkturquoise;
   outline: 0;
 }
+
 label,
 legend {
   display: block;
   margin-bottom: .5rem;
   font-weight: 600;
 }
+
 fieldset {
   padding: 0;
   border-width: 0;
 }
+
 input[type="checkbox"],
 input[type="radio"] {
   display: inline;
 }
+
 label > .label-body {
   display: inline-block;
   margin-left: .5rem;
   font-weight: normal;
 }
+
 ul {list-style: circle inside; }
 ol {list-style: decimal inside; }
 ol, ul {
   padding-left: 0;
   margin-top: 0;
 }
+
 ul ul,
 ul ol,
 ol ol,
@@ -190,6 +212,7 @@ ol ul {
   margin: 1.5rem 0 1.5rem 3rem;
   font-size: 90%;
 }
+
 li {margin-bottom: 1rem;}
 th,
 td {
@@ -197,14 +220,17 @@ td {
   text-align: left;
   border-bottom: 1px solid lightgray;
 }
+
 th:first-child,
 td:first-child {
   padding-left: 0;
 }
+
 th:last-child,
 td:last-child {
   padding-right: 0;
 }
+
 button {margin-bottom: 1rem;}
 input,
 textarea,
@@ -212,6 +238,7 @@ select,
 fieldset {
   margin-bottom: 1.5rem;
 }
+
 pre,
 blockquote,
 dl,
@@ -230,14 +257,17 @@ form {
   width: 100%;
   box-sizing: border-box;
 }
+
 .max-full-width {
   max-width: 100%;
   box-sizing: border-box;
 }
+
 .preset {
 	font-family: "Courier New", monospace;
 	white-space: pre;
 }
+
 .pull-right {float: right;}
 .pull-left {float: left;}
   
@@ -248,6 +278,7 @@ form {
     width: 85%;
     padding: 0; }
 }
+
 /* For devices larger than 550px */
 @media (min-width: 550px) {
   .container {width: 80%;}
