@@ -5,7 +5,7 @@
  * Kamile Vaicekonis
  * CSC3221 - Netcentric Computing
  * Task Manager Project
- * Scripts.js
+ * Scripts.js - Frontend
  */
 
 const http = new coreHTTP;
